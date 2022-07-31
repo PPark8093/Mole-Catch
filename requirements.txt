@@ -1,8 +1,13 @@
 To Execute this skripts,
 SkQuery and SkChoke Addon(Plugin) is required
+---
 
 이 스크립트를 실행하기위해선,
 SkQuery와 SkChoke 애드온(플러그인)이 필요합니다
+---
 
 Thanks for reading
 읽어주셔서 감사합니다
+---
+
+END
