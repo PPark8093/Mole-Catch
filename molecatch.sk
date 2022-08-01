@@ -1,0 +1,63 @@
+#Made By PPark8093
+#https://github.com/PPark8093
+
+command /molecatcher.get:
+	trigger:
+		if {MoleCatcher.%player's uuid%} is not true:
+			give wooden pickaxe named "&6&l두더지잡기" with lore "&7[우클릭시 : 두더지잡기가 시작된다]" to player
+			set {MoleCatcher.%player's uuid%} to true
+			wait 60 seconds
+			delete {MoleCatcher.%player's uuid%}
+		else if {MoleCatcher.%player's uuid%} is true:
+			send action bar "&c&l두더지잡기아이템을 얻으실려면, 기다려야합니다!" to player
+		
+command /molecatcher.explanation:
+	trigger:
+		send "&a두더지 잡기 설명" to player
+		send "1. 5초동안 두더지잡기를 실행합니다" to player
+		send "2. 두더지 1마리당 10점" to player
+		send "3. 두더지 잡기 쿨타임 60초" to player
+		send "&a즐겁게 플레이 하십시오!" to player
+		
+command /molecatcher.reset:
+	trigger:
+		delete {Mole.%player's uuid%}
+		delete {MoleCatcher.%player's uuid%}
+		delete {MoleCatch.%player's uuid%}
+	
+on rightclick:
+	if player's tool is wooden pickaxe named "&6&l두더지잡기":
+		if {Mole.%player's uuid%} is not true:
+			set {Mole.%player's uuid%} to true
+			set {MoleStart.%player's uuid%} to true
+			cancel event
+			open chest with 3 rows named "&c&l두더지잡기" to player
+			loop 5 times:
+				loop 4 times:
+					wait 0.5 seconds
+					set {MoleItem.%player's uuid%} to random integer between 1 and 27
+					set slot {MoleItem.%player's uuid%} of player's current inventory to brown dye named "&6두더지" with lore "&5두더지이다"
+					wait 0.5 seconds
+					set slot {MoleItem.%player's uuid%} of player's current inventory to air
+			set {MoleStart.%player's uuid%} to false
+			close player's inventory
+			send "%{MoleCatch.%player's uuid%}%/20점!" to player
+			delete {MoleCatch.%player's uuid%}
+			wait 60 seconds
+			delete {Mole.%player's uuid%}
+		else if {Mole.%player's uuid%} is true:
+			send action bar "&c&l두더지잡기를 하실려면, 기다려야합니다!" to player
+			
+on inventory click:
+	if iname is "&c&l두더지잡기":
+		if {MoleStart.%player's uuid%} is true:
+			if clicked item is brown dye named "&6두더지":
+				add 1 to {MoleCatch.%player's uuid%}
+				cancel event
+				set slot {MoleItem.%player's uuid%} of player's current inventory to air
+				play sound "entity.armor_stand.break" with volume 0.5 and pitch 1 at players in radius 1 of player
+			else if clicked item is not brown dye named "&6두더지":
+				play sound "entity.allay.hurt" with volume 0.5 and pitch 0.1 at players in radius 1 of player
+		else if {MoleStart.%player's uuid%} is not true:
+			close player's inventory
+#END
