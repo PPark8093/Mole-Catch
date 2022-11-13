@@ -8,4 +8,3 @@ This skript's function
 - RightClick with molecatcher item : open gui, and start mole catch.
 - /molecatcher.explanation : explanation of molecatcher.
 - /molecatcher.reset : reset cooltime of molecatcher.
-- 
